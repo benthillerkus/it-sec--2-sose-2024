@@ -1,7 +1,6 @@
 from collections import namedtuple
 from typing import NamedTuple, cast
 import unittest
-from multiprocessing import Pool
 
 # Note how Z=0 and A=1
 alphabet = "ZABCDEFGHIJKLMNOPQRSTUVWXY"
@@ -9,18 +8,15 @@ alphabet = "ZABCDEFGHIJKLMNOPQRSTUVWXY"
 # Size of the finite field
 m = len(alphabet)
 
-# A smarter algorithm would be
-# https://en.wikipedia.org/wiki/Itoh%E2%80%93Tsujii_inversion_algorithm
-# However, I think for the purposes of this exercise, this should suffice :)
 def find_inverse(c: int) -> int | None:
-    for i in range(40000000):
+    for i in range(m):
         if (c * i) % m == 1:
             return i
     return None
 
 # Multiplicative inverses of 0..25 modulo 26
 # It seems that all inverses are prime numbers < 26
-inverses: list[int | None] = [None, 1, None, 9, None, 21, None, 15, None, 3, None, 19, None, None, None, 7, None, 23, None, 11, None, 5, None, 17, None, 25]
+inverses = [find_inverse(i) for i in range(m)]
 
 num_possible_keys = m * len([i for i in inverses if i is not None])
 print(f"Number of possible keys: {num_possible_keys}")
@@ -104,13 +100,5 @@ class Test(unittest.TestCase):
         key = Key(1, 5)
         self.assertEqual("", decrypt(encrypt("", key), key))
         
-    def test_inverses_calculation(self):
-        self.skipTest("This test takes a long time to run")
-        pool = Pool(8)
-        calculated_inverses = pool.map(find_inverse, range(m))
-        self.assertListEqual(inverses, calculated_inverses)
-        pool.close()
-        pool.join()
-
 if __name__ == '__main__':
     unittest.main()
