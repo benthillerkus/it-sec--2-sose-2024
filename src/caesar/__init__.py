@@ -10,7 +10,7 @@ m = len(alphabet)
 
 # A smarter algorithm would be
 # https://en.wikipedia.org/wiki/Itoh%E2%80%93Tsujii_inversion_algorithm
-# However, but I think for the purposes of this exercise, this should suffice :)
+# However, I think for the purposes of this exercise, this should suffice :)
 def find_inverse(c: int) -> int | None:
     for i in range(10000000):
         if (c * i) % m == 1:
