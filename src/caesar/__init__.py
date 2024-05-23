@@ -22,6 +22,9 @@ def find_inverse(c: int) -> int | None:
 # It seems that all inverses are prime numbers < 26
 inverses: list[int | None] = [None, 1, None, 9, None, 21, None, 15, None, 3, None, 19, None, None, None, 7, None, 23, None, 11, None, 5, None, 17, None, 25]
 
+num_possible_keys = m * len([i for i in inverses if i is not None])
+print(f"Number of possible keys: {num_possible_keys}")
+
 class Key:
     a: int
     b: int
